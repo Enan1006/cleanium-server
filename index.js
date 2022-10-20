@@ -131,6 +131,30 @@ async function run() {
             const filter = { email: email }
             const result = await usersCollection.deleteOne(filter);
             res.send(result)
+        });
+
+        app.delete('/services/:id', async (req, res) => {
+            const serviceId = req.params.id;
+            const filter = { _id: ObjectId(serviceId) };
+            const result = await servicesCollection.deleteOne(filter);
+            res.send(result);
+            console.log(result)
+        });
+
+        app.put('/services/:id', async (req, res) => {
+            const serviceId = req.params.id;
+            const filter = { _id: ObjectId(serviceId) };
+            const data = req.body;
+            const updateDoc = {
+                $set: data
+            };
+            const options = { upsert: true };
+            const result = await servicesCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+        });
+
+        app.post('/make-payment', async (req, res) => {
+
         })
     }
     finally { }
